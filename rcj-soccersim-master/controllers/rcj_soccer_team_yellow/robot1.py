@@ -1,4 +1,3 @@
-import math
 from rcj_soccer_robot import RCJSoccerRobot, TIME_STEP
 from math import *
 
@@ -36,9 +35,9 @@ class MyRobot1(RCJSoccerRobot):
                 self.readData()
                 if step == 1:
                     self.move(self.xb, self.yb-0.1)
-                    if math.sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
+                    if sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
                         step = 2
                 if step == 2:
                     self.move(self.xb, self.yb)
-                    if math.sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
+                    if sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
                         step = 1
