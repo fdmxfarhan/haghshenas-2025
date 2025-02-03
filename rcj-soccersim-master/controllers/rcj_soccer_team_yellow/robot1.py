@@ -14,6 +14,13 @@ class MyRobot1(RCJSoccerRobot):
             ball_distance = abs(0.01666666/(abs(ball_data['direction'][2])/sqrt(1 - ball_data['direction'][2]**2)))
             self.xb = -sin(radians(ball_angle + self.heading)) * ball_distance + self.xr # x toop
             self.yb =  cos(radians(ball_angle + self.heading)) * ball_distance + self.yr # y toop
+
+            self.is_ball = True
+        else:
+            self.is_ball = False
+
+
+            
     def move(self, xt, yt):
         at = degrees(atan2(self.xr - xt, yt - self.yr))
         e = at - self.heading
@@ -24,20 +31,16 @@ class MyRobot1(RCJSoccerRobot):
         self.left_motor.setVelocity(vl)
         self.right_motor.setVelocity(vr)
     def run(self):
-        self.xb = 0
-        self.yb = 0
-        self.heading = 0
-        self.xr = 0
-        self.yr = 0
+        self.xb = 0 # x ball
+        self.yb = 0 # y ball
+        self.heading = 0 # zavieh robot
+        self.xr = 0 # x robot
+        self.yr = 0 # y robot
         step = 1
         while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست
             if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
                 self.readData()
-                if step == 1:
-                    self.move(self.xb, self.yb-0.1)
-                    if sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
-                        step = 2
-                if step == 2:
-                    self.move(self.xb, self.yb)
-                    if sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
-                        step = 1
+                if self.is_ball: 
+                    self.move(0, -0.5)
+                else:
+                    self.move(0, -0.5)

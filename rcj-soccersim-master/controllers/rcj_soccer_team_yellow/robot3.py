@@ -15,6 +15,13 @@ class MyRobot3(RCJSoccerRobot):
             ball_distance = abs(0.01666666/(abs(ball_data['direction'][2])/sqrt(1 - ball_data['direction'][2]**2)))
             self.xb = -sin(radians(ball_angle + self.heading)) * ball_distance + self.xr # x toop
             self.yb =  cos(radians(ball_angle + self.heading)) * ball_distance + self.yr # y toop
+
+            self.is_ball = True
+        else:
+            self.is_ball = False
+
+
+            
     def move(self, xt, yt):
         at = degrees(atan2(self.xr - xt, yt - self.yr))
         e = at - self.heading
@@ -34,11 +41,14 @@ class MyRobot3(RCJSoccerRobot):
         while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست
             if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
                 self.readData()
-                if step == 1:
-                    self.move(self.xb, self.yb-0.1)
-                    if math.sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
-                        step = 2
-                if step == 2:
-                    self.move(self.xb, self.yb)
-                    if math.sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
-                        step = 1
+                if self.is_ball:
+                    if step == 1:
+                        self.move(self.xb, self.yb-0.1)
+                        if math.sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
+                            step = 2
+                    if step == 2:
+                        self.move(self.xb, self.yb)
+                        if math.sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
+                            step = 1
+                else:
+                    self.move(-0.5, -0.2)
