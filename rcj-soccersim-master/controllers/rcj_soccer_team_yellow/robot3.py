@@ -21,7 +21,7 @@ class MyRobot3(RCJSoccerRobot):
             self.is_ball = False
 
 
-            
+
     def move(self, xt, yt):
         at = degrees(atan2(self.xr - xt, yt - self.yr))
         e = at - self.heading
@@ -41,7 +41,8 @@ class MyRobot3(RCJSoccerRobot):
         while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست
             if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
                 self.readData()
-                if self.is_ball:
+                if self.is_ball: # اگر توپ دیده شد
+                    # رفتن به سمت توپ
                     if step == 1:
                         self.move(self.xb, self.yb-0.1)
                         if math.sqrt((self.xr - self.xb)**2 + (self.yr - (self.yb - 0.1))**2) < 0.1:
@@ -50,5 +51,5 @@ class MyRobot3(RCJSoccerRobot):
                         self.move(self.xb, self.yb)
                         if math.sqrt((self.xr - self.xb)**2 + (self.yr - self.yb)**2) > 0.2:
                             step = 1
-                else:
+                else: # اگر توپ رو ندید
                     self.move(-0.5, -0.2)

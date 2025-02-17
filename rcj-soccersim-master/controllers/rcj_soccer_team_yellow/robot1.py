@@ -7,6 +7,11 @@ class MyRobot1(RCJSoccerRobot):
         self.heading = degrees(self.get_compass_heading()) # خواندن سنسور قطب نما
         self.xr = gps[0] # x robot
         self.yr = gps[1] # y robot
+
+        if self.robot.getName()[0] == 'B':
+            self.xr *= -1
+            self.yr *= -1
+        
         if self.is_new_ball_data():
             self.is_ball = True
             ball_data = self.get_new_ball_data()
@@ -20,7 +25,7 @@ class MyRobot1(RCJSoccerRobot):
             self.is_ball = False
 
 
-            
+
     def move(self, xt, yt):
         at = degrees(atan2(self.xr - xt, yt - self.yr))
         e = at - self.heading
@@ -41,6 +46,9 @@ class MyRobot1(RCJSoccerRobot):
             if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
                 self.readData()
                 if self.is_ball: 
-                    self.move(0, -0.5)
+                    if self.yb < 0:
+                        self.move(self.xb , self.yb)
+                    else:
+                        self.move(0, -0.5)
                 else:
                     self.move(0, -0.5)
