@@ -45,7 +45,7 @@ class MyRobot1(RCJSoccerRobot):
         while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست
             if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
                 self.readData()
-                if self.is_ball: 
+                if self.is_ball:
                     if self.yb < 0:
                         self.move(self.xb , self.yb)
                     else:
