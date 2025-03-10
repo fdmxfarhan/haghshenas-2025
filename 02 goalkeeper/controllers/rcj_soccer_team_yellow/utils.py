@@ -41,14 +41,12 @@ def readData(self):
             self.yb = team_data['yb']
             self.is_ball = True
 
-def move(self, xt, yt, st = False):
+def move(self, xt, yt):
     at = degrees(atan2(self.xr - xt, yt - self.yr))
     e = at - self.heading
     if e > 180: e -= 360
     if e <-180: e += 360
-    if st and dist(self.xr, self.yr, xt, yt) < 0.02:
-        stop(self)
-    elif e > 10: motor(self, 10, -10)
+    if e > 10: motor(self, 10, -10)
     elif e < -10:motor(self, -10, 10)
     else: motor(self, 10,10)
 def moveAndLook(self, xt, yt, xl, yl):
@@ -78,11 +76,11 @@ def tarif_moteghayer(self):
     self.yr = 0 # y robot
 # آرایش دفاعی
 def formation(self):
-    if self.robot.getName()[1] == '1':
+    if self.robot.getName()[1] == '3':
         moveAndLook(self, -0.4, -0.2, 0, 0.7)
     if self.robot.getName()[1] == '2':
         moveAndLook(self,  0.4, -0.2, 0, 0.7)
-    if self.robot.getName()[1] == '3':
+    if self.robot.getName()[1] == '1':
         moveAndLook(self, 0, -0.5, 0, 0.7)
 
 
