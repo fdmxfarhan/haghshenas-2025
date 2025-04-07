@@ -14,9 +14,9 @@ class MyRobot1(RCJSoccerRobot):
         elif self.yb < -0.5:
             move(self, self.xr, self.yb-0.05)
         elif self.xb > 0.4:
-            moveAndLook(self, 0.4, -0.55, self.xr, -1)
+            move(self, 0.4, -0.55)
         elif self.xb < -0.4:
-            moveAndLook(self, -0.4, -0.55, self.xr, -1)
+            move(self, -0.4, -0.55)
     def run(self):
         tarif_moteghayer(self)
         while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست

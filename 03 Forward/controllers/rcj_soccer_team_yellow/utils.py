@@ -40,15 +40,39 @@ def readData(self):
             self.xb = team_data['xb']
             self.yb = team_data['yb']
             self.is_ball = True
-
+    # if self.xb > 0.58: self.xb = 0.58
+    # if self.xb < -0.58: self.xb = -0.58 
+    # if self.yb > 0.62: self.yb = 0.62
+    # if self.yb < -0.62: self.yb = -0.62
 def move(self, xt, yt):
     at = degrees(atan2(self.xr - xt, yt - self.yr))
     e = at - self.heading
     if e > 180: e -= 360
     if e <-180: e += 360
-    if e > 10: motor(self, 10, -10)
-    elif e < -10:motor(self, -10, 10)
-    else: motor(self, 10,10)
+    
+    # Calculate distance to target
+    distance = dist(self.xr, self.yr, xt, yt)
+    
+    # Base speed based on distance (faster when far, slower when close)
+    base_speed = min(10, max(5, distance * 200))
+    
+    # Adjust turning speed based on angle error
+    if abs(e) > 30:  # Sharp turn needed
+        turn_speed = 10
+    elif abs(e) > 10:  # Moderate turn
+        turn_speed = 7
+    else:  # Small adjustment
+        turn_speed = 4
+        
+    # Apply movement
+    if e > 10:
+        motor(self, base_speed, -turn_speed)
+    elif e < -10:
+        motor(self, -turn_speed, base_speed)
+    else:
+        # When aligned, move forward with full speed
+        motor(self, base_speed, base_speed)
+
 def moveAndLook(self, xt, yt, xl, yl):
     at = degrees(atan2(self.xr - xt, yt - self.yr))
     e = at - self.heading

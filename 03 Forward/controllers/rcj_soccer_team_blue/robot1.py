@@ -4,11 +4,17 @@ from utils import *
 
 class MyRobot1(RCJSoccerRobot):
     def run(self):
-        tarif_moteghayer(self)
-        while self.robot.step(TIME_STEP) != -1: # تا زمانی که بازی در حال اجراست
-            if self.is_new_data(): # اگر دیتای جدیدی آماده خواندن بود
+        initvars(self)
+        while self.robot.step(TIME_STEP) != -1:
+            if self.is_new_data():
                 readData(self)
                 if self.is_ball:
-                    move(self, self.xb , self.yb)
+                    goalkeeper_x = self.xb
+                    if goalkeeper_x > 0.4: goalkeeper_x = 0.4
+                    if goalkeeper_x <-0.4: goalkeeper_x =-0.4
+                    if self.yb < -0.4 and (self.xb > 0.4 or self.xb < -0.4):
+                        move(self, self.xr, self.yb)
+                    else:
+                        move(self, goalkeeper_x, -0.5)
                 else:
-                    move(self, 0, -0.5)
+                    moveAndLook(self, 0, -0.5, 0, 0.8)
